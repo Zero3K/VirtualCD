@@ -81,8 +81,8 @@ HKR,"Parameters","BusType",%REG_DWORD%,0x0000000E
 [Strings]
 OSR           = "OSR, Open Systems Resoruces, Inc."
 SCSIClassName  = "SCSI and RAID controllers"
-OSRSVMDeviceDesc = "OSR StorPort Mem Virtual Adapter"
-DiskId1        = "OSR Virtual Miniport Device Installation Disk #1"
+OSRSVMDeviceDesc = "OSR Storport Mem Virtual Adapter"
+DiskId1        = "OSR Storport Mem Virtual Adapter Installation Disk #1"
 rootstr        = "root\OsrSVMem"
 
 ;*******************************************
