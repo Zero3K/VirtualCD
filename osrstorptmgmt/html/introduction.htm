@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<Title>Introduction</Title>
+</HEAD>
+<BODY>
+OSRSPMGMT  (shown below) is a management tool for the <A HREF="http://www.osronline.com">OSR</A> OSR Virtual SCSI Port Device Driver.   This utility allows the user to manage <A HREF="#VirtualDisk">virtual disks</A>, <A HREF="#DiskImage">disk images</A> and <A HREF="#VirtualCDROM">virtual CD-ROMs</A>.   It also allows the user to see the connections in use and their status.
+<P>
+<IMG ALIGN=MIDDLE NAME="OSRSPMGMT Utility" SRC=main.jpg>
+<P>
+
+<B>Features</B><P>
+<DIR>
+<LI><A HREF="#Create">Creating Virtual Disks</A>
+<LI><A HREF="#Add">Adding a Virtual Disk, Disk Image or CD-ROM</A>
+<LI><A HREF="#Delete">Deleting a Virtual Disk, Disk Image or CD-ROM</A>
+<LI><A HREF=#Remember">Remembering Connections</A>
+</DIR>
+
+<B>Issues</B><P>
+<DIR>
+<LI><A HREF="#Network">Network Support</A>
+</DIR>
+
+<P><B><A NAME="#VirtualDisk">Virtual Disks</A></B><P>
+
+This tool allows the user to create virtual disks, which are actually backed by files created by the OSRSPMGMT utility, on an accessible disk drive.   Once created these disks (".DSK" files) must be initialized via the Windows Disk Manager (which will create partitions, format, and assign drive letters), these disks are indistinguishable from physical disk drives.
+
+The user should note that it is better to create Basic disks as opposed to Dynamic disks because Basic disks will be instantly recognized and enabled by Windows.   Dynamic disks will need to be reenabled by Disk Manager each time they are connected to by OSRSPMGMT.
+
+If the Virtual Disk is on a removable device and the device is removed, the driver will detect the removal and clear the connection.
+
+<P><B><A NAME="#DiskImage">Disk Images</A></B><P>
+
+This tool allows the user to take ".BIN" files, which are actual disk images, and use them as if they were a true physical disk.   Currently only DOS formated disk are supported.
+
+<P><B><A NAME="#VirtualCDROM">Virtual CD-ROMS</A></B><P>
+
+This tool allows the user to take ".ISO" or ".IMG" files and use them as if a <I>TRUE</I> CD-ROM had been inserted into a physical CD-ROM.   The tool only knows how to handle "DATA" CD-ROMS and is not capable of handling Audio or DVD media at this time.  
+
+<P><B><A NAME="#Create">Creating a Virtual Disk</A></B>
+<P>
+<IMG ALIGN=MIDDLE NAME="OSRSPMGMT Utility" SRC=create.jpg>
+<P>
+The create dialog appears when the user selects the <B>Create Disk</B> button from the main application display.   This feature allows the user to create a file, whose size is specified in 512 byte blocks, which can then be added to the system using the <A HREF="#Add">Add Device</A> Option.
+Any Virtual Disk being created is assumed to have a ".DSK" suffix.
+
+<P><B><A NAME="#Add">Adding a Virtual Disk,Disk Image or CD-ROM</A></B>
+<P>
+<IMG ALIGN=MIDDLE NAME="OSRSPMGMT Utility" SRC=add.jpg>
+<P>
+The Add Device Dialog box appears when the user selects the <B>Add Device</B> button from the main application display.  This feature allows the user to add either a virtual disk or virtual CD-Rom to the system.   
+
+<P>Any virtual disk to be added must have been created previously using the <A HREF="#Create">Create Disk</A> option.   Virtual disks or Disk Images can be added and deleted at any time, although it is a good idea to stop using the drive when you delete it. 
+
+<P>As mentioned earlier this utility supports ".ISO" files as virtual CD-Roms.   When added these CD-ROMs behave identically to phyiscal CD-ROM drives.  Virtual CD-Roms can be added and deleted at any time, although it is a good idea to stop using the drive when you delete it.
+When adding a Virtual CD-ROM, the user must check the <I><B>Cdrom check box</B></I> in the dialog box.
+
+<P><B><A NAME="#Delete">Deleting a Virtual Disk, Disk Image or CD-ROM</A></B><P>
+This option removes support for the selected Virtual Device.   The file backing up the virtual device is NOT deleted.
+
+<P><B><A NAME="#Network">Network Support</A></B><P>
+This tool supports mounting files residing on network volumes.  However, if the volume encounters  a network disconnect it will be automatically disconnected.
+
+<P><B><A NAME="#Availability">Availability</A></B><P>
+OSR Virtual SCSI Port Device Driver kits are available for  Windows 2000,XP,and 2003 and operates on x86, IA64, and AMD64 architectures.
+
+<P><B><A NAME="#Remember">Remembering Connections</A></B><P>
+This tool is capable of remembering connections across reboots. 
+
+
+</BODY>
+</HTML>

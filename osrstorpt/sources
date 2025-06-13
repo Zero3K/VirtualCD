@@ -1,0 +1,34 @@
+TARGETNAME=osrstorpt
+TARGETPATH=..\lib\$(DDK_TARGET_OS)\$(DDKBUILDENV)
+TARGETTYPE=MINIPORT
+
+TARGETLIBS=$(DDK_LIB_PATH)\hal.lib \
+		   $(DDK_LIB_PATH)\ntoskrnl.lib \
+		   $(DDK_LIB_PATH)\storport.lib
+
+           
+
+INCLUDES=$(DDK_INC_PATH)\;..\osrstorptinc
+
+# no optimization, to ease debugging.
+MSC_OPTIMIZATION=/Odi
+
+C_DEFINES=$(C_DEFINES) /DSTRSAFE_DEPRECATE=1 /DSTRSAFE_NO_CCH_FUNCTIONS=1
+DRIVERTYPE=WDM
+
+SOURCES = osrstorpt.rc \
+          osrstorptinipt.cpp \
+          osrstorptscsi.cpp \
+          osrstorptioctrl.cpp \
+          osrstorptpnp.cpp \
+          osrstorptusercallback.cpp \
+          osrstorptdevice.cpp \
+          osrstorptuserintf.cpp \
+          osrstorptuserutil.cpp
+
+BUILD_ALLOW_LINKER_WARNINGS=1
+
+LINKER_FLAGS=$(LINKER_FLAGS)/MAP
+
+# Ensure a .bmf is built and a resulting header file as well as HTML to test paths.  
+#NTTARGETFILE0=wmi.h
