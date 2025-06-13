@@ -13,7 +13,7 @@
 //
 //	MODULE:
 //
-//		$File: //depot/tools/osrvmMEMsample/OsrVmSampleMgmt/StdAfx.h $
+//		$File: osrstorptmgmt\stdafx.h $
 //
 //	ABSTRACT:
 //

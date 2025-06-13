@@ -15,7 +15,7 @@
 //
 //    MODULE:
 //
-//        $File: //depot/tools/osrvmMEMsample/OsrVmSample/OsrVminipt.h $
+//        $File: osrstorpt\osrstorpt.h $
 //
 //    ABSTRACT:
 //
@@ -39,9 +39,9 @@ extern "C" {
 #include <scsiwmi.h>
 };
 
-#include <osrvmuserintf.h>
-#include <osrvmdebug.h>
-#include <osrVmcfg.h>
+#include <osrstorptuserintf.h>
+#include <osrstorptdebug.h>
+#include <osrstorptcfg.h>
 
 extern PDRIVER_OBJECT OsrDriverObject;
 extern UNICODE_STRING OsrRegistryPath;

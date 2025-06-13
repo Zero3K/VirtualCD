@@ -17,7 +17,7 @@ C_DEFINES=$(C_DEFINES) /DSTRSAFE_DEPRECATE=1 /DSTRSAFE_NO_CCH_FUNCTIONS=1
 DRIVERTYPE=WDM
 
 SOURCES = osrstorpt.rc \
-          osrstorptinipt.cpp \
+          osrstorpt.cpp \
           osrstorptscsi.cpp \
           osrstorptioctrl.cpp \
           osrstorptpnp.cpp \

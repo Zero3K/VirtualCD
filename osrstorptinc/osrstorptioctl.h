@@ -14,7 +14,7 @@
 //
 //	MODULE:
 //
-//		$File: //depot/tools/osrvmMEMsample/OsrVmSampleInc/OSRVMiniPtIoctl.h $
+//		$File: osrstorptinc\osrstorptioctl.h $
 //
 //	ABSTRACT:
 //
@@ -32,6 +32,6 @@
 #ifndef __OSRVMINIPTIOCTL_H__
 #define __OSRVMINIPTIOCTL_H__
 
-#include <osrvmcfg.h>
+#include <osrstorptcfg.h>
 
 #endif __OSRVMINIPTIOCTL_H__

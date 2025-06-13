@@ -13,7 +13,7 @@
 //
 //    MODULE:
 //
-//        $File: //depot/tools/osrvmMEMsample/OsrVmSample/OsrVmUserUtil.cpp $
+//        $File: osrstorpt\osrstorptuserutil.cpp $
 //
 //    ABSTRACT:
 //
@@ -30,7 +30,7 @@
 //        $Revision: #3 $
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include "UVmImpl.h"
+#include "ustorptimpl.h"
 
 extern "C" {
   #include <initguid.h>

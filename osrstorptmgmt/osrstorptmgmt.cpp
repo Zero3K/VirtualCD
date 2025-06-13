@@ -13,7 +13,7 @@
 //
 //	MODULE:
 //
-//		$File: //depot/tools/osrvmMEMsample/OsrVmSampleMgmt/OSRSPMgmt.cpp $
+//		$File: osrstorptmgmt\osrstorptmgmt.cpp $
 //
 //	ABSTRACT:
 //
@@ -32,8 +32,8 @@
 //
 
 #include "stdafx.h"
-#include "OSRSPMgmt.h"
-#include "OSRSPMgmtDlg.h"
+#include "osrstorptmgmt.h"
+#include "osrstorptmgmtdlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

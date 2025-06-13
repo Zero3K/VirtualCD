@@ -13,7 +13,7 @@
 //
 //	MODULE:
 //
-//		$File: //depot/tools/osrvmMEMsample/OsrVmSampleMgmt/AddDevice.cpp $
+//		$File: osrstorptmgmt\adddevice.cpp $
 //
 //	ABSTRACT:
 //
@@ -32,8 +32,8 @@
 //
 
 #include "stdafx.h"
-#include "OSRSPMgmt.h"
-#include "AddDevice.h"
+#include "osrstorptmgmt.h"
+#include "adddevice.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

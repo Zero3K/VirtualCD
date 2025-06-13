@@ -17,7 +17,7 @@ Class=SCSIAdapter
 ClassGUID={4D36E97B-E325-11CE-BFC1-08002BE10318}
 Provider=%OSR%
 DriverVer=01/30/2007,6.0.6000.16386
-;CatalogFile = OSRSVMINIPT.cat
+;CatalogFile = osrstorpt.cat
 
 [DestinationDirs]
 DefaultDestDir = 12
@@ -25,10 +25,10 @@ OSRSVM.ntx86.Application = 11
 OSRSVM.ntamd64.Application = 11
 
 [OSRSVM.ntamd64.Application]
-OsrSampleVmMMgmt.exe
+osrstorptmgmt.exe
 
 [OSRSVM.ntx86.Application]
-OsrSampleVmMMgmt.exe
+osrstorptmgmt.exe
 
 [Manufacturer]
 %OSR%=OSRSVM, NTx86, NTamd64
@@ -40,7 +40,7 @@ OsrSampleVmMMgmt.exe
 %OSRSVMDeviceDesc%=OSRSVM_Device, %rootstr%
 
 [OSRSVM_Device]
-CopyFiles=@OsrSVMStor.sys
+CopyFiles=@osrstorpt.sys
 
 [OSRSVM_Device.HW]
 AddReg = OSRSVM_Device_AddReg
@@ -58,19 +58,19 @@ AddService = OSRSVMStor, %SPSVCINST_ASSOCSERVICE%, OSRSVM_Service_Inst
 0 = %DiskId1%,,,
 
 [SourceDisksFiles.x86]
-OsrSVMStor.sys = 0
-OsrSampleVmMMgmt.exe =0
+osrstorpt.sys = 0
+osrstorptmgmt.exe = 0
 
 [SourceDisksFiles.amd64]
-OsrSVMStor.sys = 0
-OsrSampleVmMMgmt.exe =0
+osrstorpt.sys = 0
+OsrSampleVmMMgmt.exe = 0
 
 [OSRSVM_Service_Inst]
 DisplayName    = %OSRVMDeviceDesc%
 ServiceType    = %SERVICE_KERNEL_DRIVER%
 StartType      = %SERVICE_BOOT_START%
 ErrorControl   = %SERVICE_ERROR_NORMAL%
-ServiceBinary  = %12%\OsrSVMStor.sys
+ServiceBinary  = %12%\osrstorpt.sys
 LoadOrderGroup = SCSI Miniport
 AddReg         = pnpsafe_isa_addreg
 
@@ -81,8 +81,8 @@ HKR,"Parameters","BusType",%REG_DWORD%,0x0000000E
 [Strings]
 OSR           = "OSR, Open Systems Resoruces, Inc."
 SCSIClassName  = "SCSI and RAID controllers"
-OSRSVMDeviceDesc = "OSR Sample StorPort Mem Virtual Adapter"
-DiskId1        = "OSR Sample Virtual Miniport Device Installation Disk #1"
+OSRSVMDeviceDesc = "OSR StorPort Mem Virtual Adapter"
+DiskId1        = "OSR Virtual Miniport Device Installation Disk #1"
 rootstr        = "root\OsrSVMem"
 
 ;*******************************************

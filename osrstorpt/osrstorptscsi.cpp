@@ -13,7 +13,7 @@
 //
 //    MODULE:
 //
-//        $File: //depot/tools/osrvmMEMsample/OsrVmSample/OsrVMScsi.cpp $
+//        $File: osrstorpt\osrstorptscsi.cpp $
 //
 //    ABSTRACT:
 //

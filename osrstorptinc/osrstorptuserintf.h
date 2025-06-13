@@ -13,7 +13,7 @@
 //
 //    MODULE:
 //
-//        $File: //depot/tools/osrvmMEMsample/OsrVmSampleInc/OsrVmUserIntf.h $
+//        $File: osrstorptinc\osrstorptuserintf.h $
 //
 //    ABSTRACT:
 //

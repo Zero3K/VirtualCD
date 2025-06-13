@@ -14,7 +14,7 @@
 //
 //	MODULE:
 //
-//		$File: //depot/tools/osrvmMEMsample/OsrVmSampleInc/OsrVmCfg.h $
+//		$File: osrstorptinc\osrstorptcfg.h $
 //
 //	ABSTRACT:
 //

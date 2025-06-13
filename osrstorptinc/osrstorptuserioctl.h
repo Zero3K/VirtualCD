@@ -13,7 +13,7 @@
 //
 //	MODULE:
 //
-//		$File: //depot/tools/osrvmMEMsample/OsrVmSampleInc/OSRVMUserIoctl.h $
+//		$File: osrstorptinc\osrstorptuserioctl.h $
 //
 //	ABSTRACT:
 //
@@ -41,7 +41,7 @@
 
 #define MAX_NAME_LENGTH 256
 
-#include <OsrVmCfg.h>
+#include <osrstorptcfg.h>
 
 #define IOCTL_OSRVMPORT_SCSIPORT CTL_CODE(FILE_DEVICE_OSRVMPORT,USER_VM_IOCTL_START,METHOD_BUFFERED,FILE_ALL_ACCESS)
 

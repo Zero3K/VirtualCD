@@ -13,7 +13,7 @@
 //
 //	MODULE:
 //
-//		$File: //depot/tools/osrvmMEMsample/OsrVmSampleMgmt/OSRSPMgmtDlg.cpp $
+//		$File: osrstorptmgmt\osrstorptmgmtdlg.cpp $
 //
 //	ABSTRACT:
 //
@@ -32,12 +32,11 @@
 //
 
 #include "stdafx.h"
-#include "OSRSPMgmt.h"
-#include "OSRSPMgmtDlg.h"
-#include "AddDevice.h"
+#include "osrstorptmgmt.h"
+#include "osrstorptmgmtdlg.h"
+#include "adddevice.h"
 #include <htmlhelp.h>
-#include ".\osrspmgmtdlg.h"
-#include <OsrVmUserIoctl.h>
+#include <osrstorptuserioctl.h>
 #include <osrspintf.h>
 
 #ifdef _DEBUG

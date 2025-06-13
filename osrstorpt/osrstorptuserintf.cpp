@@ -13,7 +13,7 @@
 //
 //    MODULE:
 //
-//        $File: //depot/tools/osrvmMEMsample/OsrVmSample/OsrVmUserIntf.cpp $
+//        $File: osrstorpt\osrstorptuserintf.cpp $
 //
 //    ABSTRACT:
 //
@@ -30,7 +30,7 @@
 //        $Revision: #5 $
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include "UVmImpl.h"
+#include "ustorptimpl.h"
 
 
 GLOBALS Globals = {0};

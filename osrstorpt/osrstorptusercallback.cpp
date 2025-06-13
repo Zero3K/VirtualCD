@@ -13,7 +13,7 @@
 //
 //    MODULE:
 //
-//        $File: //depot/tools/osrvmMEMsample/OsrVmSample/OsrVmUserCallback.cpp $
+//        $File: osrstorpt\osrstorptusercallback.cpp $
 //
 //    ABSTRACT:
 //

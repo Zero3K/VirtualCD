@@ -13,7 +13,7 @@
 //
 //	MODULE:
 //
-//		$File: //depot/tools/osrvmMEMsample/OsrVmSampleMgmt/AddDevice.h $
+//		$File: osrstorptmgmt\adddevice.h $
 //
 //	ABSTRACT:
 //

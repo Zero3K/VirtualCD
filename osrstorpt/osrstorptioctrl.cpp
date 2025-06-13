@@ -13,7 +13,7 @@
 //
 //    MODULE:
 //
-//        $File: //depot/tools/osrvmMEMsample/OsrVmSample/OSRVmIoCtrl.cpp $
+//        $File: osrstorpt\osrstorptioCtrl.cpp $
 //
 //    ABSTRACT:
 //

@@ -13,7 +13,7 @@
 //
 //    MODULE:
 //
-//        $File: //depot/tools/osrvmMEMsample/OsrVmSample/OsrVmDevice.cpp $
+//        $File: osrstorpt\osrstorptdevice.cpp $
 //
 //    ABSTRACT:
 //

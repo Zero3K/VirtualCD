@@ -14,7 +14,7 @@
 //
 //	MODULE:
 //
-//		$File: //depot/tools/osrvmMEMsample/OsrVmSample/UVmImpl.h $
+//		$File: osrstorpt\ustrptimpl.h $
 //
 //	ABSTRACT:
 //
@@ -45,9 +45,9 @@ extern "C" {
 #pragma warning(default : 4115 4201 4214 4127 4702)
 };
 
-#include <OsrVmUserIntf.h>
-#include <OsrVmUserIoctl.h>
-#include <OsrVmDebug.h>
+#include <osrstorptuserintf.h>
+#include <osrstorptuserioctl.h>
+#include <osrstorptdebug.h>
 #include <stdio.h>
 
 

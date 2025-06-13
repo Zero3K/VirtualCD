@@ -14,7 +14,7 @@
 //
 //	MODULE:
 //
-//		$File: //depot/tools/osrvmMEMsample/OsrVmSampleMgmt/osrspintf.cpp $
+//		$File: osrstorptmgmt\osrspintf.cpp $
 //
 //	ABSTRACT:
 //
@@ -31,8 +31,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include <winioctl.h>
-#include <osrvmcfg.h>
-#include <OSRVmUserIoctl.h>
+#include <osrstorptcfg.h>
+#include <osrstorptuserioctl.h>
 #include <osrspintf.h>
 extern "C" {
 #include <ntddscsi.h>

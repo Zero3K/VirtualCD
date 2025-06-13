@@ -13,7 +13,7 @@
 //
 //	MODULE:
 //
-//		$File: //depot/tools/osrvmMEMsample/OsrVmSampleMgmt/OSRSPMgmt.h $
+//		$File: osrstorptmgmt\osrstorptmgmt.h $
 //
 //	ABSTRACT:
 //
