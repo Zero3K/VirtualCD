@@ -10,13 +10,14 @@
 ; Copyright (c) 1998-2009, Microsoft Corporation.
 ; Copyright (c) 2009, Microsoft Corporation.
 
+
 [Version]
 Signature="$WINDOWS NT$"
 Class=SCSIAdapter
 ClassGUID={4D36E97B-E325-11CE-BFC1-08002BE10318}
 Provider=%OSR%
 DriverVer=01/30/2007,6.0.6000.16386
-CatalogFile = OSRSVMINIPT.cat
+;CatalogFile = OSRSVMINIPT.cat
 
 [DestinationDirs]
 DefaultDestDir = 12
@@ -51,10 +52,10 @@ HKR, "ScsiPort", "NeedsSystemShutdownNotification", 0x00010001, 1
 AddService = OSRSVMStor, %SPSVCINST_ASSOCSERVICE%, OSRSVM_Service_Inst
 
 [SourceDisksNames.x86]
-0 = %DiskId1%,,,\i386
+0 = %DiskId1%,,,
 
 [SourceDisksNames.amd64]
-0 = %DiskId1%,,,\amd64
+0 = %DiskId1%,,,
 
 [SourceDisksFiles.x86]
 OsrSVMStor.sys = 0
