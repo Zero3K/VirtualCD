@@ -2,11 +2,6 @@
 //
 #include "resource.h"
 
-// Generated Help ID header file
-#define APSTUDIO_HIDDEN_SYMBOLS
-#include "resource.hm"
-#undef APSTUDIO_HIDDEN_SYMBOLS
-
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -95,9 +90,9 @@ EXSTYLE WS_EX_APPWINDOW
 CAPTION "Osr Storport Virtual MiniPort Management Application"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    CONTROL         "List1",IDC_CONNECTION_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,17,73,361,111,0,HIDC_CONNECTION_LIST
-    PUSHBUTTON      "&Add Device",IDC_BUTTON_ADD,138,199,50,14,0,0,HIDC_BUTTON_ADD
-    PUSHBUTTON      "&Delete Device",IDC_BUTTON_DELETE,203,199,50,14,WS_DISABLED,0,HIDC_BUTTON_DELETE
+    CONTROL         "List1",IDC_CONNECTION_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,17,73,361,111,0,IDC_CONNECTION_LIST
+    PUSHBUTTON      "&Add Device",IDC_BUTTON_ADD,138,199,50,14,0,0,IDC_BUTTON_ADD
+    PUSHBUTTON      "&Delete Device",IDC_BUTTON_DELETE,203,199,50,14,WS_DISABLED,0,IDC_BUTTON_DELETE
     DEFPUSHBUTTON   "OK",IDOK,335,7,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,335,23,50,14
     PUSHBUTTON      "&Help",ID_HELP,335,40,50,14
@@ -111,7 +106,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Add Device Dialog"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    EDITTEXT        IDC_EDIT_PATHNAME,21,53,140,14,ES_AUTOHSCROLL,0,HIDC_EDIT_PATHNAME
+    EDITTEXT        IDC_EDIT_PATHNAME,21,53,140,14,ES_AUTOHSCROLL,0,IDC_EDIT_PATHNAME
     DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,129,24,50,14
     LTEXT           "Instance Name:",IDC_STATIC,21,42,50,8
@@ -225,7 +220,6 @@ END
 LANGUAGE 9, 1
 #pragma code_page(1252)
 #endif //_WIN32
-#include "res\OSRSPMgmt.rc2"  // non-Microsoft Visual C++ edited resources
 #include "afxres.rc"         // Standard components
 #endif
 

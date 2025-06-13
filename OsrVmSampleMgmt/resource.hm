@@ -1,7 +1,0 @@
-// Microsoft Visual C++ generated Help ID include file.
-// Used by OsrVmSampleMgmt.rc
-//
-#define HIDC_BUTTON_ADD                 0x806603e9    // IDD_OSRSPMGMT_DIALOG
-#define HIDC_BUTTON_DELETE              0x806603ea    // IDD_OSRSPMGMT_DIALOG
-#define HIDC_CONNECTION_LIST            0x806603e8    // IDD_OSRSPMGMT_DIALOG
-#define HIDC_EDIT_PATHNAME              0x808203ec    // IDD_DIALOG_ADD_DEVICE

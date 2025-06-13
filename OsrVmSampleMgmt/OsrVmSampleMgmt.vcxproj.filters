@@ -13,9 +13,6 @@
       <UniqueIdentifier>{d21e9b3a-7b51-4e7f-a33a-aa321db4c03d}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="build files">
-      <UniqueIdentifier>{6d480f4c-bd6d-43e1-b1d4-6b86e261d293}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddDevice.cpp">
@@ -44,24 +41,10 @@
     <None Include="res\OSRSPMgmt.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\OSRSPMgmt.rc2">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\OsrVmSampleMgmt.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="MAKEFILE">
-      <Filter>build files</Filter>
-    </None>
-    <None Include="sources">
-      <Filter>build files</Filter>
-    </None>
     <None Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="OsrVmSampleMgmt.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddDevice.h">
@@ -102,8 +85,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
+    <ResourceCompile Include="OsrVmSampleMgmt.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
