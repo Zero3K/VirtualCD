@@ -13,7 +13,7 @@
 //
 //    MODULE:
 //
-//        $File: //depot/tools/osrvmMEMsample/OsrVmSample/OsrVminipt.cpp $
+//        $File: osrstorpt\osrstorpt.cpp $
 //
 //    ABSTRACT:
 //

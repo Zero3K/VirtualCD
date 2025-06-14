@@ -63,7 +63,7 @@ osrstorptmgmt.exe = 0
 
 [SourceDisksFiles.amd64]
 osrstorpt.sys = 0
-OsrSampleVmMMgmt.exe = 0
+osrstorptmgmt.exe = 0
 
 [OSRSVM_Service_Inst]
 DisplayName    = %OSRVMDeviceDesc%
