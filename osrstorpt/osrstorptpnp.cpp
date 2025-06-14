@@ -139,11 +139,19 @@ NTSTATUS OsrVmHwHandlePnP(IN POSR_DEVICE_EXTENSION PDevExt,
 			break;
     }
 
-    if(!NT_SUCCESS(status)) {
-		OsrTracePrint(TRACE_LEVEL_ERROR,OSRVMINIPT_DEBUG_PNP_INFO,
-			("OsrVmHwHandlePnP Pnp Error status:0x%x\n",status));
-		ASSERT(FALSE);
+   if(!NT_SUCCESS(status)) {
+    OsrTracePrint(TRACE_LEVEL_ERROR, OSRVMINIPT_DEBUG_PNP_INFO,
+        ("OsrVmHwHandlePnP Pnp Error status:0x%x\n", status));
+    // Only assert for serious errors, not for "not found" on remove
+    if (PSrb->PnPAction != StorRemoveDevice || status != STATUS_NOT_FOUND) {
+        ASSERT(FALSE);
     }
+    // For remove+not found, treat as success
+    if (PSrb->PnPAction == StorRemoveDevice && status == STATUS_NOT_FOUND) {
+        PSrb->SrbStatus = SRB_STATUS_SUCCESS;
+        status = STATUS_SUCCESS;
+    }
+}
 
 	OsrTracePrint(TRACE_LEVEL_VERBOSE,OSRVMINIPT_DEBUG_FUNCTRACE,
 			("OsrVmHwHandlePnP Exit\n"));
