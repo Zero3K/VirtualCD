@@ -27,8 +27,7 @@ SOURCES = osrstorpt.rc \
           osrstorptuserutil.cpp
 
 BUILD_ALLOW_LINKER_WARNINGS=1
-
-LINKER_FLAGS=$(LINKER_FLAGS)/MAP
+DRIVER_ALIGNMENT=0x1000
 
 # Ensure a .bmf is built and a resulting header file as well as HTML to test paths.  
 #NTTARGETFILE0=wmi.h

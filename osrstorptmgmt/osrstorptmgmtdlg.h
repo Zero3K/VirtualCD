@@ -60,7 +60,7 @@ protected:
 	afx_msg void OnButtonCreateDisk();
 	afx_msg void OnButtonDelete();
 	afx_msg void OnHelp();
-	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	virtual void OnCancel();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()

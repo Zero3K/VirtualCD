@@ -381,7 +381,7 @@ void COSRSPMgmtDlg::OnHelp()
 #endif
 }
 
-void COSRSPMgmtDlg::OnTimer(UINT nIDEvent) 
+void COSRSPMgmtDlg::OnTimer(UINT_PTR nIDEvent) 
 {
 	// TODO: Add your message handler code here and/or call default
     if(nIDEvent == 1234) {
