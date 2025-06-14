@@ -54,8 +54,6 @@ IoGetDeviceAttachmentBaseRef(
 };
 #endif
 
-
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	DeleteDevicesThreadStart
@@ -129,10 +127,10 @@ void DeleteDevicesThreadStart(PVOID Context)
 
 		OsrAcquireSpinLock(&pDevExt->DeviceListLock,&lockHandle);
 
-		for(PLIST_ENTRY pEntry = pDevExt->DeviceList.Flink;
-			pEntry != &pDevExt->DeviceList; pEntry = pEntry->Flink) {
-
-			pDevice = (POSR_VM_DEVICE) CONTAINING_RECORD(pEntry,OSR_VM_DEVICE,ListEntry);
+		PLIST_ENTRY pEntry = pDevExt->DeviceList.Flink;
+		while (pEntry != &pDevExt->DeviceList) {
+			POSR_VM_DEVICE pDevice = CONTAINING_RECORD(pEntry, OSR_VM_DEVICE, ListEntry);
+			PLIST_ENTRY pNextEntry = pEntry->Flink; // Save next entry before any possible remove/free
 
 			OSR_VM_DEVICE_VALID(pDevice);
 
@@ -145,8 +143,9 @@ void DeleteDevicesThreadStart(PVOID Context)
 				OsrUserDeleteLocalInformation(pDevice->PUserLocalInformation);
 				OsrAcquireSpinLock(&pDevExt->DeviceListLock,&lockHandle);
 				ExFreePool(pDevice);
-				pEntry = &pDevExt->DeviceList;
 			}
+
+			pEntry = pNextEntry;
 		}
 
 		OsrReleaseSpinLock(&pDevExt->DeviceListLock,lockHandle);
@@ -173,66 +172,12 @@ void DeleteDevicesThreadStart(PVOID Context)
     return;
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrHwFindAdapter
 //	
 //		The Storport virtual miniport uses configuration information supplied
 //		to this routine to further initialize itself.
-//
-//	INPUTS:
-//
-//		PDevExt - pointer to our non-paged storage area
-//		PHwContext - A pointer to a context value. Not useful in a Storport 
-//					virtual miniport driver
-//		PBusInformation - A pointer to the miniport’s functional device object (FDO). 
-//		PLowerDO - A pointer to the device object controlled by the miniport’s FDO
-//		PArgumentString - A pointer to a null-terminated ASCII string. This string, 
-//				if supplied, contains device information from the registry such 
-//				as a base parameter.
-//		PConfigInfo - A pointer to a PORT_CONFIGURATION_INFORMATION (Storport) 
-//				structure. The port driver initializes this structure with any known 
-//				configuration information, such as values that the miniport driver’s 
-//				DriverEntry set in the VIRTUAL_HW_INITIALIZATION_DATA. 
-//				VirtualHwStorFindAdapter must use any supplied information to 
-//				determine if the virtual HBA it describes is one that the miniport 
-//				driver supports. If so, VirtualHwStorFindAdapter initializes and 
-//				configures that HBA and fills in any missing configuration information. 
-//				If possible, a miniport driver should have default configuration values 
-//				for each type of HBA that it supports, in the event that the operating 
-//				system-dependent port driver cannot supply additional configuration 
-//				information that was not provided by the miniport driver's 
-//				DriverEntry routine. 
-//		PBAgain - Not used
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//
-//		SP_RETURN_FOUND 
-//			Indicates that a supported HBA was found and that the HBA-relevant 
-//			configuration information was determined successfully and set in the 
-//			PORT_CONFIGURATION_INFORMATION structure. 
-//		SP_RETURN_ERROR 
-//			Indicates that an HBA was found, but an error occurred when it obtained
-//			the configuration information. If possible, such an error should be 
-//			logged with ScsiPortLogError. 
-//		SP_RETURN_BAD_CONFIG 
-//			Indicates that the supplied configuration information was invalid for the adapter. 
-//		SP_RETURN_NOT_FOUND 
-//			Indicates that no supported HBA was found for the supplied configuration information. 
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == PASSIVE_LEVEL
-//
-//	NOTES:
-//
-//		The VirtualDevice field in the configuration information stucture must be set to TRUE.
-//		Other fields can be set as needed
 //
 ///////////////////////////////////////////////////////////////////////////////
 ULONG OsrHwFindAdapter(IN PVOID PDevExt,
@@ -367,7 +312,6 @@ adapterNotFound:
     return SP_RETURN_NOT_FOUND;
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrHwInitialize
@@ -377,28 +321,6 @@ adapterNotFound:
 //		HwStorFindAdapter successfully returns. HwStorInitialize initializes 
 //		the HBA and finds all devices that are of interest to the miniport 
 //		driver.
-//
-//	INPUTS:
-//
-//		PDevExt - pointer to our non-paged storage area
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//
-//		TRUE. 
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == PASSIVE_LEVEL
-//
-//	NOTES:
-//
-//		In a miniport for a real adapter, HwStorInitialize is called at DIRQL.  
-//		This routine, however is called at PASSIVE_LEVEL because there is no 
-//		Interrupt object
 //
 ///////////////////////////////////////////////////////////////////////////////
 BOOLEAN OsrHwInitialize(IN PVOID PDevExt)
@@ -440,36 +362,12 @@ BOOLEAN OsrHwInitialize(IN PVOID PDevExt)
     return ok;
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrHwResetBus
 //	
 //		The HwStorResetBus routine is called by the port driver to clear 
 //		error conditions
-//
-//	INPUTS:
-//
-//		PDevExt - pointer to our non-paged storage area
-//		BusId - identifies the SCSI bus to be reset
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//
-//		TRUE. 
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == DISPATCH_LEVEL
-//
-//	NOTES:
-//
-//		In a miniport for a real adapter, HwStorInitialize is called at DIRQL.  
-//		This routine, however is called at PASSIVE_LEVEL because there is no 
-//		Interrupt object
 //
 ///////////////////////////////////////////////////////////////////////////////
 BOOLEAN OsrHwResetBus(IN PVOID PDevExt,IN ULONG BusId)
@@ -489,38 +387,9 @@ BOOLEAN OsrHwResetBus(IN PVOID PDevExt,IN ULONG BusId)
     return TRUE;
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrHwAdapterControl
-//	
-//		A miniport driver's HwStorAdapterControl routine is called to perform 
-//		synchronous operations to control the state or behavior of an adapter, 
-//		such as stopping or restarting the HBA for power management
-//
-//	INPUTS:
-//
-//		PDevExt - pointer to our non-paged storage area
-//		ControlType - adapter-control operation
-//		Parameters - parameters related to control type
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//
-//		TRUE. 
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == DISPATCH_LEVEL
-//
-//	NOTES:
-//
-//		In a miniport for a real adapter, OsrHwAdapterControl is called at DIRQL.  
-//		This routine, however is called at PASSIVE_LEVEL because there is no 
-//		Interrupt object
 //
 ///////////////////////////////////////////////////////////////////////////////
 SCSI_ADAPTER_CONTROL_STATUS OsrHwAdapterControl(IN PVOID PDevExt,
@@ -591,38 +460,9 @@ SCSI_ADAPTER_CONTROL_STATUS OsrHwAdapterControl(IN PVOID PDevExt,
     return ScsiAdapterControlSuccess;
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrHwStartIo
-//	
-//		A miniport driver's HwStorAdapterControl routine is called to perform 
-//		synchronous operations to control the state or behavior of an adapter, 
-//		such as stopping or restarting the HBA for power management
-//
-//	INPUTS:
-//
-//		PDevExt - pointer to our non-paged storage area
-//		ControlType - adapter-control operation
-//		Parameters - parameters related to control type
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//
-//		TRUE. 
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == DISPATCH_LEVEL
-//
-//	NOTES:
-//
-//		In a miniport for a real adapter, HwStorInitialize is called at DIRQL.  
-//		This routine, however is called at PASSIVE_LEVEL because there is no 
-//		Interrupt object
 //
 ///////////////////////////////////////////////////////////////////////////////
 BOOLEAN OsrHwStartIo(IN PVOID PDevExt,
@@ -722,36 +562,9 @@ BOOLEAN OsrHwStartIo(IN PVOID PDevExt,
     return TRUE;
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrHwProcessServiceRequest
-//	
-//		The HwStorProcessServiceRequest callback routine receives an IRP that 
-//		is produced by an IOCTL when a caller, such as a user-mode application 
-//		or kernel-mode driver, requires a “reverse callback” operation. The I/O 
-//		is completed by the miniport driver when it needs to tell the caller of 
-//		something or needs the caller to do something	such as stopping or 
-//		restarting the HBA for power management
-//
-//	INPUTS:
-//
-//		PDevExt - pointer to our non-paged storage area
-//		PIrp - Irp Request
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//
-//		TRUE. 
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == PASSIVE_LEVEL
-//
-//	NOTES:
 //
 ///////////////////////////////////////////////////////////////////////////////
 VOID OsrHwProcessServiceRequest(IN PVOID PDevExt,
@@ -782,33 +595,9 @@ VOID OsrHwProcessServiceRequest(IN PVOID PDevExt,
 				("OsrHwProcessServiceRequest Exit\n"));
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrHwCompleteServiceRequest
-//	
-//		The HwStorCompleteServiceIrp routine is called when the virtual 
-//		adapter is being removed. When this happens, the Storport virtual 
-//		miniport can complete any reverse-callback IRPs received in 
-//		HwStorProcessServiceRequest.
-//
-//	INPUTS:
-//
-//		PDevExt - pointer to our non-paged storage area
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//
-//		TRUE. 
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == PASSIVE_LEVEL
-//
-//	NOTES:
 //
 ///////////////////////////////////////////////////////////////////////////////
 VOID OsrHwCompleteServiceRequest(IN PVOID PDevExt)
@@ -816,37 +605,13 @@ VOID OsrHwCompleteServiceRequest(IN PVOID PDevExt)
     OsrTracePrint(TRACE_LEVEL_VERBOSE,OSRVMINIPT_DEBUG_FUNCTRACE,
 				("OsrHwCompleteServiceRequest Enter\n"));
 
-
     OsrTracePrint(TRACE_LEVEL_VERBOSE,OSRVMINIPT_DEBUG_FUNCTRACE,
 				("OsrHwCompleteServiceRequest Exit\n"));
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrHwFreeAdapterResources
-//	
-//		The HwStorFreeAdapterResources callback routine allows the Storport 
-//		virtual miniport driver to free resources when the virtual adapter is 
-//		being removed. This is the last callback routine for the adapter.
-//
-//	INPUTS:
-//
-//		PDevExt - pointer to our non-paged storage area
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//
-//		TRUE. 
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == PASSIVE_LEVEL
-//
-//	NOTES:
 //
 ///////////////////////////////////////////////////////////////////////////////
 VOID OsrHwFreeAdapterResources(IN PVOID PDevExt)
@@ -879,42 +644,15 @@ VOID OsrHwFreeAdapterResources(IN PVOID PDevExt)
 				("OsrHwFreeAdapterResources Exit\n"));
 }
 
-
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	DriverEntry
-//	
-//		This is the main entry point of the driver itself; driver 
-//		initialization occurs here
-//
-//	INPUTS:
-//
-//		DriverObject - the object representing this driver
-//		RegistryPath - the path to this driver's registry key
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//		STATUS_SUCCESS - driver started successfully
-//		STATUS_UNSUCCESSFUL - driver did not start
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == PASSIVE_LEVEL
-//
-//	NOTES:
-//
-//   None.
 //
 ///////////////////////////////////////////////////////////////////////////////
 #pragma prefast(suppress:28101,"Yes, this is DriverEntry, glad you noticed")
 NTSTATUS __stdcall DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 {
 	NTSTATUS	status = STATUS_SUCCESS;
-
 
     OsrTracePrint(TRACE_LEVEL_VERBOSE,OSRVMINIPT_DEBUG_FUNCTRACE,("DriverEntry Entered\n"));
 
@@ -939,7 +677,6 @@ NTSTATUS __stdcall DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Regi
         RtlCopyUnicodeString(&OsrRegistryPath, RegistryPath);
 
     }
-
 
     //
     // Set up information for StorPortInitialize.
@@ -988,34 +725,9 @@ NTSTATUS __stdcall DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Regi
 
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OSRRegistryReadValue
-//	
-//		read a DWORD from the registry, using an absolute
-//      path.  Never a default with this call
-//
-//	INPUTS:
-//
-//		RegistryPath - path
-//		Key - key
-//		Type - registry value type
-//
-//	OUTPUTS:
-//
-//		Value - address of location to receive value.
-//
-//	RETURNS:
-//		TRUE if read, false otherwise
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == PASSIVE_LEVEL
-//
-//	NOTES:
-//
-//   None.
 //
 ///////////////////////////////////////////////////////////////////////////////
 BOOLEAN OSRRegistryReadValue(PUNICODE_STRING RegistryPath, PWSTR Key, ULONG Type, PVOID Value)
@@ -1051,34 +763,9 @@ BOOLEAN OSRRegistryReadValue(PUNICODE_STRING RegistryPath, PWSTR Key, ULONG Type
     return(NT_SUCCESS(code) ? TRUE : FALSE);
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	OSRRegistryReadValue
-//	
-//		read the registry for the BreakOnEntry keyword for THIS driver to determine
-//                            if it should break.  Of course, the intention is that 
-//							  OSRRegistryBreakOnEntry
-//                            is called at the top of DriverEntry.
-//
-//	INPUTS:
-//
-//		RegistryPath - path
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//		None.
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == PASSIVE_LEVEL
-//
-//	NOTES:
-//
-//   None.
+//	OSRRegistryBreakOnEntry
 //
 ///////////////////////////////////////////////////////////////////////////////
 VOID OSRRegistryBreakOnEntry(PUNICODE_STRING RegistryPath)
@@ -1093,33 +780,9 @@ VOID OSRRegistryBreakOnEntry(PUNICODE_STRING RegistryPath)
     return;
 }
 
-
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrInitializeSpinLock
-//	
-//		Initialize a spinlock.
-//
-//	INPUTS:
-//
-//		PSpinLock - address of lock
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//		None.
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == PASSIVE_LEVEL
-//
-//	NOTES:
-//
-//   This was done here to get around a duplicate symbol error while linking
-//	the code.   We don't like using /FORCE to get around the issue.
 //
 ///////////////////////////////////////////////////////////////////////////////
 VOID OsrInitializeSpinLock(PKSPIN_LOCK PSpinLock)
@@ -1127,34 +790,9 @@ VOID OsrInitializeSpinLock(PKSPIN_LOCK PSpinLock)
 	KeInitializeSpinLock(PSpinLock);
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrAcquireSpinLock
-//	
-//		Acquire a spinlock.
-//
-//	INPUTS:
-//
-//		PSpinLock - address of lock
-//		PIrql - address of KIRQL
-//		
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//		None.
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL <= DISPATCH_LEVEL
-//
-//	NOTES:
-//
-//   This was done here to get around a duplicate symbol error while linking
-//	the code.   We don't like using /FORCE to get around the issue.
 //
 ///////////////////////////////////////////////////////////////////////////////
 #pragma prefast(suppress:28167,"Yes, we acquire the lock here.")
@@ -1163,34 +801,9 @@ VOID OsrAcquireSpinLock(PKSPIN_LOCK PSpinLock,KIRQL* PIrql)
 	KeAcquireSpinLock(PSpinLock,PIrql);
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrReleaseSpinLock
-//	
-//		Release a spinlock.
-//
-//	INPUTS:
-//
-//		PSpinLock - address of lock
-//		Irql - Irql
-//		
-//
-//	OUTPUTS:
-//
-//		None.
-//
-//	RETURNS:
-//		None.
-//
-//	IRQL REQUIREMENTS:
-//
-//		IRQL == DISPATCH_LEVEL
-//
-//	NOTES:
-//
-//   This was done here to get around a duplicate symbol error while linking
-//	the code.   We don't like using /FORCE to get around the issue.
 //
 ///////////////////////////////////////////////////////////////////////////////
 #pragma prefast(suppress:28167,"Yes, we release the lock here.")

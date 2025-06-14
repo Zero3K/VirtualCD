@@ -34,7 +34,7 @@
 extern "C" VOID OsrUserDeleteLocalInformation(PVOID UserLocalInfo);
 
 NTSTATUS OsrVmHandleRemoveDevice(IN POSR_DEVICE_EXTENSION PDevExt,
-    IN PSCSI_PNP_REQUEST_BLOCK  PSrb)
+                                IN PSCSI_PNP_REQUEST_BLOCK  PSrb)
 {
     NTSTATUS status = STATUS_SUCCESS;
     POSR_VM_DEVICE pVmDevice = NULL;
@@ -48,8 +48,8 @@ NTSTATUS OsrVmHandleRemoveDevice(IN POSR_DEVICE_EXTENSION PDevExt,
 
     // Find the matching device in DeviceList based on PathId/TargetId/Lun
     for (PLIST_ENTRY entry = PDevExt->DeviceList.Flink;
-        entry != &PDevExt->DeviceList;
-        entry = entry->Flink) {
+         entry != &PDevExt->DeviceList;
+         entry = entry->Flink) {
 
         POSR_VM_DEVICE device = CONTAINING_RECORD(entry, OSR_VM_DEVICE, ListEntry);
         if (device->PathId == PSrb->PathId &&
@@ -82,8 +82,8 @@ NTSTATUS OsrVmHandleRemoveDevice(IN POSR_DEVICE_EXTENSION PDevExt,
         // Free the device struct itself
         ExFreePool(pVmDevice);
 
-    }
-    else {
+        status = STATUS_SUCCESS;
+    } else {
         // No matching device found
         KeReleaseSpinLock(&PDevExt->DeviceListLock, oldIrql);
         OsrTracePrint(TRACE_LEVEL_WARNING, OSRVMINIPT_DEBUG_PNP_INFO,
@@ -101,7 +101,7 @@ NTSTATUS OsrVmHandleRemoveDevice(IN POSR_DEVICE_EXTENSION PDevExt,
 }
 
 NTSTATUS OsrVmHandleQueryCapabilities(IN POSR_DEVICE_EXTENSION PDevExt,
-    IN PSCSI_PNP_REQUEST_BLOCK PSrb)
+									  IN PSCSI_PNP_REQUEST_BLOCK PSrb)
 {
     NTSTATUS                  status = STATUS_SUCCESS;
     PSTOR_DEVICE_CAPABILITIES pStorageCapabilities = (PSTOR_DEVICE_CAPABILITIES)PSrb->DataBuffer;
@@ -118,7 +118,7 @@ NTSTATUS OsrVmHandleQueryCapabilities(IN POSR_DEVICE_EXTENSION PDevExt,
     return status;
 }
 
-
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	OsrVmHwHandlePnP
@@ -146,64 +146,75 @@ NTSTATUS OsrVmHandleQueryCapabilities(IN POSR_DEVICE_EXTENSION PDevExt,
 //
 ///////////////////////////////////////////////////////////////////////////////
 NTSTATUS OsrVmHwHandlePnP(IN POSR_DEVICE_EXTENSION PDevExt,
-    IN PSCSI_PNP_REQUEST_BLOCK PSrb)
+						  IN PSCSI_PNP_REQUEST_BLOCK PSrb)
 {
     NTSTATUS status = STATUS_SUCCESS;
 
-    OsrTracePrint(TRACE_LEVEL_VERBOSE, OSRVMINIPT_DEBUG_FUNCTRACE,
-        ("OsrVmHwHandlePnP Entered\n"));
+	OsrTracePrint(TRACE_LEVEL_VERBOSE,OSRVMINIPT_DEBUG_FUNCTRACE,
+			("OsrVmHwHandlePnP Entered\n"));
 
-    switch (PSrb->PnPAction) {
+    switch(PSrb->PnPAction) {
 
-    case StorStartDevice:
-        OsrTracePrint(TRACE_LEVEL_INFORMATION, OSRVMINIPT_DEBUG_PNP_INFO,
-            ("OsrVmHwHandlePnP StorStartDevice\n"));
-        PSrb->SrbStatus = SRB_STATUS_BAD_FUNCTION;
-        status = STATUS_UNSUCCESSFUL;
-        break;
+		case StorStartDevice:
+			OsrTracePrint(TRACE_LEVEL_INFORMATION,OSRVMINIPT_DEBUG_PNP_INFO,
+				("OsrVmHwHandlePnP StorStartDevice\n"));
+			PSrb->SrbStatus = SRB_STATUS_BAD_FUNCTION;
+			status = STATUS_UNSUCCESSFUL;
+			break;
 
-    case StorRemoveDevice:
-        OsrTracePrint(TRACE_LEVEL_INFORMATION, OSRVMINIPT_DEBUG_PNP_INFO,
-            ("OsrVmHwHandlePnP StorRemoveDevice\n"));
-        status = OsrVmHandleRemoveDevice(PDevExt, PSrb);
-        break;
+		case StorRemoveDevice:
+			OsrTracePrint(TRACE_LEVEL_INFORMATION,OSRVMINIPT_DEBUG_PNP_INFO,
+				("OsrVmHwHandlePnP StorRemoveDevice\n"));
+			status = OsrVmHandleRemoveDevice(PDevExt, PSrb);
+			break;
 
-    case StorStopDevice:
-        OsrTracePrint(TRACE_LEVEL_INFORMATION, OSRVMINIPT_DEBUG_PNP_INFO,
-            ("OsrVmHwHandlePnP StorStopDevice\n"));
-        PSrb->SrbStatus = SRB_STATUS_BAD_FUNCTION;
-        status = STATUS_UNSUCCESSFUL;
-        break;
+		case StorStopDevice:
+			OsrTracePrint(TRACE_LEVEL_INFORMATION,OSRVMINIPT_DEBUG_PNP_INFO,
+				("OsrVmHwHandlePnP StorStopDevice\n"));
+			PSrb->SrbStatus = SRB_STATUS_BAD_FUNCTION;
+			status = STATUS_UNSUCCESSFUL;
+			break;
 
-    case StorQueryCapabilities:
-        OsrTracePrint(TRACE_LEVEL_INFORMATION, OSRVMINIPT_DEBUG_PNP_INFO,
-            ("OsrVmHwHandlePnP StorQueryCapabilities\n"));
-        status = OsrVmHandleQueryCapabilities(PDevExt, PSrb);
-        break;
+		case StorQueryCapabilities:
+			OsrTracePrint(TRACE_LEVEL_INFORMATION,OSRVMINIPT_DEBUG_PNP_INFO,
+				("OsrVmHwHandlePnP StorQueryCapabilities\n"));
+			status = OsrVmHandleQueryCapabilities(PDevExt, PSrb);
+			break;
 
-    case StorFilterResourceRequirements:
-        OsrTracePrint(TRACE_LEVEL_INFORMATION, OSRVMINIPT_DEBUG_PNP_INFO,
-            ("OsrVmHwHandlePnP StorFilterResourceRequirements\n"));
-        PSrb->SrbStatus = SRB_STATUS_BAD_FUNCTION;
-        status = STATUS_UNSUCCESSFUL;
-        break;
+		case StorFilterResourceRequirements:
+			OsrTracePrint(TRACE_LEVEL_INFORMATION,OSRVMINIPT_DEBUG_PNP_INFO,
+				("OsrVmHwHandlePnP StorFilterResourceRequirements\n"));
+			PSrb->SrbStatus = SRB_STATUS_BAD_FUNCTION;
+			status = STATUS_UNSUCCESSFUL;
+			break;
 
-    default:
-        OsrTracePrint(TRACE_LEVEL_ERROR, OSRVMINIPT_DEBUG_PNP_INFO,
-            ("OsrVmHwHandlePnP unknown Pnp Event 0x%x\n", PSrb->PnPAction));
-        PSrb->SrbStatus = SRB_STATUS_BAD_FUNCTION;
-        status = STATUS_UNSUCCESSFUL;
-        break;
+		default:
+			OsrTracePrint(TRACE_LEVEL_ERROR,OSRVMINIPT_DEBUG_PNP_INFO,
+				("OsrVmHwHandlePnP unknown Pnp Event 0x%x\n",PSrb->PnPAction));
+			PSrb->SrbStatus = SRB_STATUS_BAD_FUNCTION;
+			status = STATUS_UNSUCCESSFUL;
+			break;
     }
 
-    if (!NT_SUCCESS(status)) {
-        OsrTracePrint(TRACE_LEVEL_ERROR, OSRVMINIPT_DEBUG_PNP_INFO,
-            ("OsrVmHwHandlePnP Pnp Error status:0x%x\n", status));
-        ASSERT(FALSE);
+    if(!NT_SUCCESS(status)) {
+        // Only assert for serious errors, not for "not found" on remove
+        if (PSrb->PnPAction == StorRemoveDevice && status == STATUS_NOT_FOUND) {
+            OsrTracePrint(TRACE_LEVEL_WARNING, OSRVMINIPT_DEBUG_PNP_INFO,
+                ("OsrVmHwHandlePnP: RemoveDevice called but device was not found in DeviceList "
+                 "(PathId=%lu, TargetId=%lu, Lun=%lu) -- ignoring.\n",
+                 PSrb->PathId, PSrb->TargetId, PSrb->Lun));
+            // Treat as success for PnP manager
+            PSrb->SrbStatus = SRB_STATUS_SUCCESS;
+            status = STATUS_SUCCESS;
+        } else {
+            OsrTracePrint(TRACE_LEVEL_ERROR, OSRVMINIPT_DEBUG_PNP_INFO,
+                ("OsrVmHwHandlePnP Pnp Error status:0x%x\n", status));
+            ASSERT(FALSE);
+        }
     }
 
-    OsrTracePrint(TRACE_LEVEL_VERBOSE, OSRVMINIPT_DEBUG_FUNCTRACE,
-        ("OsrVmHwHandlePnP Exit\n"));
+	OsrTracePrint(TRACE_LEVEL_VERBOSE,OSRVMINIPT_DEBUG_FUNCTRACE,
+			("OsrVmHwHandlePnP Exit\n"));
 
     return status;
 }
