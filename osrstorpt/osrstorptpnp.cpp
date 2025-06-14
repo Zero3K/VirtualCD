@@ -31,14 +31,34 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "osrstorpt.h"
 
+extern "C" VOID OsrUserDeleteLocalInformation(PVOID UserLocalInfo);
 
 NTSTATUS OsrVmHandleRemoveDevice(IN POSR_DEVICE_EXTENSION PDevExt,
                      IN PSCSI_PNP_REQUEST_BLOCK  PSrb)
 {
-    NTSTATUS                  status = STATUS_SUCCESS;
-    PSTOR_DEVICE_CAPABILITIES pStorageCapabilities = (PSTOR_DEVICE_CAPABILITIES)PSrb->DataBuffer;
+    NTSTATUS status = STATUS_SUCCESS;
 
+    OsrTracePrint(TRACE_LEVEL_INFORMATION, OSRVMINIPT_DEBUG_PNP_INFO,
+        ("OsrVmHandleRemoveDevice: Entered\n"));
+
+    // Free per-device user/local information (if any)
+    if (PDevExt->PUserLocalInformation) {
+        OsrTracePrint(TRACE_LEVEL_INFORMATION, OSRVMINIPT_DEBUG_PNP_INFO,
+            ("OsrVmHandleRemoveDevice: Deleting local information %p\n", PDevExt->PUserLocalInformation));
+        OsrUserDeleteLocalInformation(PDevExt->PUserLocalInformation);
+        PDevExt->PUserLocalInformation = NULL;
+    }
+
+    // Remove device from internal device list if you maintain one
+    // (If you have a device list, remove PDevExt here.)
+
+    // Free any other per-device allocations here
+
+    // Set success
     PSrb->SrbStatus = SRB_STATUS_SUCCESS;
+
+    OsrTracePrint(TRACE_LEVEL_INFORMATION, OSRVMINIPT_DEBUG_PNP_INFO,
+        ("OsrVmHandleRemoveDevice: Exit\n"));
 
     return status;
 }
