@@ -150,7 +150,7 @@ BOOL COSRSPMgmtDlg::OnInitDialog()
     HANDLE osrSPDriverHandle = ConnectToScsiPort();
 
     if(osrSPDriverHandle == INVALID_HANDLE_VALUE) {
-        AfxMessageBox(L"OSRScsi Driver Not Found. Exiting.",MB_OK|MB_ICONSTOP);
+        AfxMessageBox(L"Osrstorpt driver not installed. Exiting.",MB_OK|MB_ICONSTOP);
         OnCancel();
         return FALSE;
     }
