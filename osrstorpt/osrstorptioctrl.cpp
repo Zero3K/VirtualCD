@@ -13,7 +13,7 @@
 //
 //    MODULE:
 //
-//        $File: osrstorpt\osrstorptioCtrl.cpp $
+//        $File: osrstorpt\osrstorptioctrl.cpp $
 //
 //    ABSTRACT:
 //
